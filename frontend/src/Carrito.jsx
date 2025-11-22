@@ -7,17 +7,46 @@ function Carrito({ cart, totalPrice, removeFromCart, clearCart, addToCart }) {
 
     const [compraExitosa, setCompraExitosa] = useState(false);
 
-    const handleCheckout = () => {
-        if (cart.length === 0) return; 
+    const handleCheckout = async () => {
+    if (cart.length === 0) return; 
 
+    const API_URL_STOCK = 'http://localhost:5000/api/productos/update-stock';
+    
+    const itemsToUpdate = cart.map(item => ({
+        id: item.id,      // _id de MongoDB
+        quantity: item.quantity
+    }));
+
+    try {
+        
+        const response = await fetch(API_URL_STOCK, {
+            method: 'PATCH', 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ items: itemsToUpdate }) // Envía el array de ítems
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            // Si hay error (ej: stock insuficiente, que el backend debe detectar), se muestra aquí
+            throw new Error(errorData.message || 'Error al procesar la compra.');
+        }
+
+        
         setCompraExitosa(true);
-
+        
+        
         setTimeout(() => {
-            clearCart(); 
-            setCompraExitosa(false);
-        }, 3000); 
-    };
+            clearCart();
+        }, 3000);
 
+    } catch (error) {
+        // Alerta si el backend devolvió un error (ej. stock insuficiente)
+        window.alert(`Error al finalizar la compra: ${error.message}`); 
+        setCompraExitosa(false); 
+    }
+};
+
+    
     // ------------------- Renderizado de Carrito Vacío o Compra Exitosa -------------------
 
     // Mensaje de compra exitosa
@@ -70,7 +99,7 @@ function Carrito({ cart, totalPrice, removeFromCart, clearCart, addToCart }) {
                     {cart.map(item => (
                         <div key={item.id} className="cart-item">
                             <img 
-                                src={item.imagen} 
+                                src={item.imagenUrl || item.imagen} 
                                 alt={item.nombre} 
                                 className="cart-item-image"
                             />
