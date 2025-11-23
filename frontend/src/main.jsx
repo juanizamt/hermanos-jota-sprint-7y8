@@ -1,19 +1,27 @@
 // frontend/src/main.jsx
 
-import { StrictMode } from 'react'
+import ReactDOM from 'react-dom/client';
+import React from 'react';
+import App from './App.jsx';
+import './css/Hermanos-Jota-estilos.css';
+import { AuthProvider } from './context/AuthContext';
 import { createRoot } from 'react-dom/client'
-// Importa el CSS aquí
 import './css/Hermanos-Jota-estilos.css' 
-// Importa el componente principal App
-import App from './App.jsx'; 
+import { CartProvider } from './context/CartContext.jsx';
+import { BrowserRouter } from 'react-router-dom';
 
-// Ya NO necesitas importar ListaProductos aquí si ya lo haces en App.jsx
 
 const container = document.getElementById('root')
 const root = createRoot(container)
 
 root.render(
-  <StrictMode>
-    <App /> {/* ¡Renderiza App! */}
-  </StrictMode>
+  <React.StrictMode>
+    <BrowserRouter>
+    <AuthProvider>
+        <CartProvider>
+            <App />
+        </CartProvider>
+    </AuthProvider>
+    </BrowserRouter>
+  </React.StrictMode>,
 )

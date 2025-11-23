@@ -1,26 +1,46 @@
+import React, { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { CartContext } from '../context/CartContext'; 
 
-import React from 'react';
+function Navbar() {
+  const { user, logout } = useContext(AuthContext);
+  const { cartCount } = useContext(CartContext); 
 
-function Navbar({ cartCount, onViewChange }) {
   return (
     <header className="header">
       <div className="logo-container">
-<<<<<<< HEAD
-        <img src="/assets/Fotos_hermanos_jota/logo.svg" alt="Logo de Mueblería Jota" style={{ height: '60px' }} />
-=======
-        <img src="..\assets\Fotos_hermanos_jota\logo.svg" alt="Logo de Mueblería Jota" style={{ height: '60px' }} />
->>>>>>> c4ff19ca494d0b07fd3e6dd1c14f5531d8551245
+        <img src="/assets/Fotos_hermanos_jota/logo.svg" alt="Logo" style={{ height: '60px' }} />
         <h1>Mueblería Hermanos Jota</h1>
       </div>
       <nav className="nav-menu">
         <ul>
-          <li><button onClick={() => onViewChange('catalog')}>Catálogo</button></li>
-          <li><button onClick={() => onViewChange('contact')}>Contacto</button></li>
+          <li><Link to="/">Inicio</Link></li>
+          <li><Link to="/catalogo">Catálogo</Link></li>
+          
+          
+          {user ? (
+            <>
+                <li><span style={{color: 'white', fontWeight:'bold'}}>Hola, {user.username}</span></li>
+                
+                {user.rol && user.rol.includes('admin') && (
+                   <li><Link to="/admin/crear-producto" style={{color: '#ff6b6b'}}>Admin</Link></li>
+                )}
+                <li><button onClick={logout} className="btn-logout" style={{background:'transparent', border:'none', color:'white', cursor:'pointer'}}>Salir</button></li>
+            </>
+          ) : (
+            <>
+                <li><Link to="/login">Login</Link></li>
+                <li><Link to="/registro">Registro</Link></li>
+            </>
+          )}
+
+          <li><Link to="/contacto">Contacto</Link></li>
           
           <li>
-            <a href="#" className="cart-icon" title={`Carrito: ${cartCount} items`}>
-                🛒 <span id="cart-counter">{cartCount}</span>
-            </a>
+            <Link to="/carrito" className="cart-icon">
+                🛒 <span>{cartCount}</span>
+            </Link>
           </li>
         </ul>
       </nav>

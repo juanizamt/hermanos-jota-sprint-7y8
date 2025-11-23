@@ -4,10 +4,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 
 import productRoutes from './routes/productRoutes.js';
-
+import userRoutes from './routes/userRoutes.js';
 
 dotenv.config();
-
 
 const mongoURI = process.env.MONGO_URI;
 
@@ -33,6 +32,7 @@ app.get('/', (req, res) => {
 
 
 app.use('/api/productos', productRoutes);
+app.use('/api/usuarios', userRoutes);
 
 
 

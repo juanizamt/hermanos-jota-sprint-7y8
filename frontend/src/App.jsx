@@ -1,25 +1,18 @@
 // frontend/src/App.jsx
 
 import React, { useState } from 'react';
-<<<<<<< HEAD
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-=======
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 
->>>>>>> c4ff19ca494d0b07fd3e6dd1c14f5531d8551245
 import ListaProductos from './ListaProductos.jsx';
 import ProductoDetalle from './ProductoDetalle.jsx';
 import Carrito from './Carrito.jsx'; 
 import Contacto from './Contacto.jsx'; 
-<<<<<<< HEAD
-
-// Componente para mostrar el Hero Banner en la ruta principal (/)
-// Esto asegura que la lógica del Catálogo quede solo en /catalogo
-=======
 import ProductForm from './ProductForm';
 import './App.css'; 
+import LoginPage from './pages/LoginPage.jsx';
+import RegisterPage from './pages/RegistroPage.jsx';
+import Navbar from './components/Navbar.jsx';
 
->>>>>>> c4ff19ca494d0b07fd3e6dd1c14f5531d8551245
 const HeroPage = () => (
     <main>
         <div className="hero-banner">
@@ -32,33 +25,6 @@ const HeroPage = () => (
     </main>
 );
 
-<<<<<<< HEAD
-
-function App() {
-    // ESTADO GLOBAL DEL CARRITO
-    const [cart, setCart] = useState([]); 
-
-    // FUNCIONES DE GESTIÓN DEL CARRITO
-    
-    const addToCart = (productToAdd) => {
-        const existingItem = cart.find(item => item.id === productToAdd.id);
-        const price = Number(productToAdd.precio); 
-
-        if (existingItem) {
-            setCart(
-                cart.map(item =>
-                    item.id === productToAdd.id
-                        ? { ...item, quantity: item.quantity + 1 } 
-                        : item
-                )
-            );
-        } else {
-            setCart([...cart, { ...productToAdd, quantity: 1, precio: price }]);
-        }
-    };
-
-    const removeFromCart = (productId, removeAll = false) => {
-=======
 const CatalogWrapper = () => {
     const location = useLocation();
     const successMessage = location.state?.successMessage;
@@ -123,7 +89,6 @@ function App() {
     };
 
     const removeFromCart = (productId, removeAll = false) => { 
->>>>>>> c4ff19ca494d0b07fd3e6dd1c14f5531d8551245
         setCart(currentCart => {
             const existingItem = currentCart.find(item => item.id === productId);
             if (!existingItem) return currentCart;
@@ -140,29 +105,6 @@ function App() {
         });
     };
     
-<<<<<<< HEAD
-    const clearCart = () => {
-        setCart([]);
-    };
-
-    // CÁLCULO DE VALORES
-    const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
-
-    const totalPrice = cart.reduce(
-        (total, item) => total + (item.precio * item.quantity), 
-        0
-    ).toFixed(2); 
-
-    // ESTRUCTURA Y RUTAS
-    return (
-        <Router>
-            {/* ESTRUCTURA HTML BÁSICA PARA HEADER */}
-            <header className="header">
-                <div className="logo-container">
-                    <img src="/assets/Fotos_Hermanos_Jota/logo.svg" alt="Hermanos Jota Logo" />
-                    <h1>Hermanos Jota</h1>
-                </div>
-=======
     const clearCart = () => { setCart([]); };
 
     
@@ -171,88 +113,28 @@ function App() {
 
     
     return (
-        <Router>
-            <header className="header">
-                <Link to="/" className="logo-container">
-                    <img src="\public\assets\Fotos_hermanos_jota\logo.svg" alt="Hermanos Jota Logo" />
-                    <h1>Mueblería Jota</h1>
-                </Link>
->>>>>>> c4ff19ca494d0b07fd3e6dd1c14f5531d8551245
-                <nav className="nav-menu">
-                    <ul>
-                        <li><Link to="/">Inicio</Link></li>
-                        <li><Link to="/catalogo">Catálogo</Link></li>
-<<<<<<< HEAD
-                        <li><Link to="/contacto">Contacto</Link></li>
-                        <li>
-                            <Link to="/carrito" className="cart-icon">
-                                Carrito ({cartItemCount})
-=======
-                        
-                        <li><Link to="/admin/crear-producto" style={{color: 'red', fontWeight: 'bold'}}>Admin (CRUD)</Link></li> 
-                        <li><Link to="/contacto">Contacto</Link></li>
-                        <li>
-                            <Link to="/carrito" className="cart-icon">
-                                🛒 Carrito ({cartItemCount})
->>>>>>> c4ff19ca494d0b07fd3e6dd1c14f5531d8551245
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-            </header>
+        <div style={{minHeight: '80vh'}}> 
+
+            <Navbar /> 
             
-            <div style={{minHeight: '80vh'}}> 
-                <Routes>
-<<<<<<< HEAD
-                    {/* RUTA PRINCIPAL: Ahora usa el Hero Banner, no el catálogo */}
-                    <Route path="/" element={<HeroPage />} /> 
-                    
-                    <Route path="/catalogo" element={<main><ListaProductos /></main>} />
-                    <Route path="/contacto" element={<Contacto />} />
-                    
-                    <Route 
-                        path="/producto/:id" 
-                        element={<ProductoDetalle addToCart={addToCart} />} 
-=======
-                    {/*Rutas Principales */}
-                    <Route path="/" element={<HeroPage />} /> 
-                    <Route path="/catalogo" element={<CatalogWrapper />} /> 
-                    <Route path="/contacto" element={<Contacto />} />
-                    
-                  
-                    <Route path="/admin/crear-producto" element={<ProductForm />} /> 
-                    
-                    <Route path="/admin/editar-producto/:id" element={<ProductForm />} /> 
-                    
-                   
-                    <Route 
-                        path="/productos/:id" 
-                        element={<ProductoDetalle addToCart={addToCart} cart={cart} />} 
->>>>>>> c4ff19ca494d0b07fd3e6dd1c14f5531d8551245
-                    />
-                    
-                    <Route 
-                        path="/carrito" 
-                        element={<Carrito 
-                                    cart={cart}
-                                    totalPrice={totalPrice} 
-                                    removeFromCart={removeFromCart}
-                                    clearCart={clearCart}
-                                    addToCart={addToCart} 
-                                />} 
-                    /> 
-                </Routes>
-            </div>
+
+            <Routes>
+                <Route path="/" element={<ListaProductos />} /> 
+                <Route path="/catalogo" element={<ListaProductos />} /> 
+                <Route path="/contacto" element={<Contacto />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/registro" element={<RegisterPage />} />
+                
+                <Route path="/admin/crear-producto" element={<ProductForm />} /> 
+                <Route path="/admin/editar-producto/:id" element={<ProductForm />} /> 
+                <Route path="/productos/:id" element={<ProductoDetalle />} />
+                <Route path="/carrito" element={<Carrito />} /> 
+            </Routes>
             
-<<<<<<< HEAD
-            {/* ESTRUCTURA HTML BÁSICA PARA FOOTER */}
-=======
-            
->>>>>>> c4ff19ca494d0b07fd3e6dd1c14f5531d8551245
             <footer className="footer">
                 <p>&copy; {new Date().getFullYear()} Hermanos Jota. Todos los derechos reservados.</p>
             </footer>
-        </Router>
+        </div>
     );
 }
 
