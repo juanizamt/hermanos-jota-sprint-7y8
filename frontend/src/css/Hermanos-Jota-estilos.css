@@ -619,3 +619,50 @@ h1 {
     border-color: var(--color-btn);
     outline: none; /* Quitar el borde de foco predeterminado del navegador */
 }
+
+.user-welcome {
+    color: #0f4768; 
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-right: 15px; 
+}
+
+/*cambia a este color el mensaje de bienvenida cuando pasa el mouse por encima */
+.user-welcome:hover {
+    color: #A0522D; /* Color marrón de la marca */
+}
+
+.user-exit {
+    color: red;
+    font-weight: bold;
+    font-size: 0.95rem;
+    margin-left: 15px; 
+}
+
+.btn-logout {
+    background-color: transparent;
+    border: 2px solid #A0522D; 
+    color: #A0522D;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.btn-logout:hover {
+    background-color: #A0522D;
+    color: white; 
+}
+
+
+.nav-link-style {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+}
+.nav-link-style:hover {
+    color: #A0522D;
+}

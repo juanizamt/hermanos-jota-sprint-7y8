@@ -1,45 +1,56 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+
 import { AuthContext } from '../context/AuthContext';
 import { CartContext } from '../context/CartContext'; 
+import { Link, useNavigate } from 'react-router-dom';
 
 function Navbar() {
   const { user, logout } = useContext(AuthContext);
   const { cartCount } = useContext(CartContext); 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();      
+    navigate('/'); 
+  };
 
   return (
     <header className="header">
-      <div className="logo-container">
+      <Link to="/" className="logo-container">
+        
         <img src="/assets/Fotos_hermanos_jota/logo.svg" alt="Logo" style={{ height: '60px' }} />
         <h1>Mueblería Hermanos Jota</h1>
-      </div>
+      </Link>
+      
       <nav className="nav-menu">
         <ul>
           <li><Link to="/">Inicio</Link></li>
           <li><Link to="/catalogo">Catálogo</Link></li>
-          
-          
+          <li><Link to="/contacto">Contacto</Link></li>
+
+         
           {user ? (
             <>
-                <li><span style={{color: 'white', fontWeight:'bold'}}>Hola, {user.username}</span></li>
-                
-                {user.rol && user.rol.includes('admin') && (
-                   <li><Link to="/admin/crear-producto" style={{color: '#ff6b6b'}}>Admin</Link></li>
-                )}
-                <li><button onClick={logout} className="btn-logout" style={{background:'transparent', border:'none', color:'white', cursor:'pointer'}}>Salir</button></li>
+              <li>
+                  <span className="user-welcome">Hola, {user.username}</span>
+              </li>
+              
+              <li>
+                  <button onClick={handleLogout} className="btn-logout">
+                      Salir
+                  </button>
+              </li>
             </>
           ) : (
             <>
-                <li><Link to="/login">Login</Link></li>
-                <li><Link to="/registro">Registro</Link></li>
+              <li><Link to="/login" className="nav-link-style">Ingresar</Link></li>
+              <li><Link to="/registro" className="nav-link-style">Registrarse</Link></li>
             </>
           )}
 
-          <li><Link to="/contacto">Contacto</Link></li>
-          
           <li>
-            <Link to="/carrito" className="cart-icon">
-                🛒 <span>{cartCount}</span>
+            <Link to="/carrito" className="cart-icon" title={`Carrito: ${cartCount} items`}>
+                🛒 <span id="cart-counter">{cartCount}</span>
             </Link>
           </li>
         </ul>

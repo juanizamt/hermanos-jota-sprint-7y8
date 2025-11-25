@@ -1,13 +1,14 @@
 //RegistroPage.jsx
 
+import React, { useState, useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function RegistroPage() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
     const navigate = useNavigate();
-
+    const { login } = useContext(AuthContext);
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
@@ -23,10 +24,12 @@ function RegistroPage() {
             });
 
             const data = await response.json();
+            //console.log("respuesta del servidor:", data);
 
             if (response.ok) {
-                alert('Registro exitoso. Ahora puedes iniciar sesión.');
-                navigate('/login');
+                login(data.token);
+                alert(`¡Bienvenido, ${data.user.username}! Registro exitoso.`);
+                navigate('/');
             } else {
                 alert(data.message || 'Error al registrarse');
             }

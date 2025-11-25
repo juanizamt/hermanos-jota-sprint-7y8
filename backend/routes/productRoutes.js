@@ -4,12 +4,16 @@ import {
   getProductById,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  updateStock
 } from '../controllers/product.controller.js';
+
+import authMiddleware from '../middleware/authMiddleware.js'; 
+import adminGuard from '../middleware/adminGuard.js';
 
 const router = express.Router();
 
-
+router.patch('/update-stock', authMiddleware, updateStock);
 
 // get
 router.get('/', getAllProducts);
@@ -18,12 +22,12 @@ router.get('/', getAllProducts);
 router.get('/:id', getProductById); 
 
 // post
-router.post('/', createProduct); 
+router.post('/', authMiddleware, adminGuard, createProduct); 
 
 // put
-router.put('/:id', updateProduct); 
+router.put('/:id', authMiddleware, adminGuard, updateProduct); 
 
 // delete
-router.delete('/:id', deleteProduct);
+router.delete('/:id', authMiddleware, adminGuard, deleteProduct);
 
 export default router;

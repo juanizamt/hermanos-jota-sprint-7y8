@@ -71,4 +71,25 @@ export const deleteProduct = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: 'Error al eliminar el producto', error: error.message });
   }
+
+  
+};
+
+export const updateStock = async (req, res) => {
+    const { items } = req.body; // El frontend envía un array de items
+
+    try {
+
+        await Promise.all(items.map(async (item) => {
+            await Product.findByIdAndUpdate(item.id, { 
+                $inc: { stock: -item.quantity } 
+            });
+        }));
+
+        res.status(200).json({ message: 'Compra realizada y stock actualizado correctamente' });
+
+    } catch (error) {
+        console.error("Error al actualizar stock:", error);
+        res.status(500).json({ message: 'Error al procesar la compra', error: error.message });
+    }
 };
