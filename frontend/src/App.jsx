@@ -78,8 +78,26 @@ function App() {
         setNotification({ message: `Añadido: ${productToAdd.nombre}`, type: 'success' });
     };
 
-    const removeFromCart = (productId, removeAll = false) => { 
-        setCart(currentCart => {
+    const removeFromCart = (productId, removeAll = false) => {
+       
+        const itemToRemove = cart.find(item => item.id === productId);
+        
+        if (itemToRemove) {
+            if (removeAll || itemToRemove.quantity === 1) {
+                
+                setNotification({ 
+                    message: `${itemToRemove.nombre} eliminado del carrito.`, 
+                    type: 'error' 
+                });
+            } else {
+                
+                setNotification({ 
+                    message: `Se restó 1 unidad de ${itemToRemove.nombre}.`, 
+                    type: 'neutral'
+            });
+        }
+    };
+    setCart(currentCart => {
             const existingItem = currentCart.find(item => item.id === productId);
             if (!existingItem) return currentCart;
 
@@ -95,7 +113,14 @@ function App() {
         });
     };
     
-    const clearCart = () => { setCart([]); };
+   const clearCart = () => { 
+        setCart([]); 
+        // Mensaje ROJO al vaciar todo
+        setNotification({ 
+            message: 'Has vaciado tu carrito.', 
+            type: 'error' 
+        });
+    };
 
     
     const cartItemCount = cart.reduce((total, item) => total + item.quantity, 0);
@@ -106,7 +131,7 @@ function App() {
         <div style={{minHeight: '80vh', position: 'relative'}}> 
 
             <Navbar /> 
-            {notification && (
+            {notification && notification.message &&(
                 <div className={`notification-toast ${notification.type}`}>
                     {notification.message}
                 </div>
@@ -116,8 +141,8 @@ function App() {
                 <Route path="/" element={<HeroPage />} />
                 <Route path="/catalogo" element={<ListaProductos />} /> 
                 <Route path="/contacto" element={<Contacto />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/registro" element={<RegisterPage />} />
+                <Route path="/login" element={<LoginPage setNotification={setNotification} />} />
+                <Route path="/registro" element={<RegisterPage setNotification={setNotification} />} />
                 
                 <Route path="/admin/crear-producto" element={<ProductForm />} /> 
                 <Route path="/admin/editar-producto/:id" element={<ProductForm />} /> 

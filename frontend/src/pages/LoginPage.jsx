@@ -2,7 +2,7 @@ import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 
-function LoginPage () {
+function LoginPage ({setNotification}) {
 
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
     const { login } = useContext(AuthContext);
@@ -27,12 +27,26 @@ function LoginPage () {
             if (response.ok) {
 
             login(data.token); 
-            alert('Inicio de sesión exitoso.');
+
+           if (setNotification) {
+                    setNotification({
+                        message: `¡Bienvenido de nuevo, ${data.user.username}!`,
+                        type: 'neutral'
+                    });
+                }
             navigate('/'); 
             } else {
-                alert(data.message || 'Credenciales incorrectas');
+            const mensajeError = data.message || "Error al iniciar sesión (Credenciales incorrectas)";
+            
+            if (setNotification) {
+                setNotification({ 
+                    message: mensajeError, 
+                    type: 'error' 
+                });
+            } else {
+                alert(mensajeError);
             }
-
+        }
         } catch (error) {
             console.error('Error:', error);
             alert('Error de conexión');

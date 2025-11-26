@@ -102,19 +102,21 @@
 
 .notification-toast {
     position: fixed;
-    top: 80px;
+    top: 110px;
     right: 20px;
-    padding: 15px 25px;
+    padding: 20px 30px;
+    min-width: 250px;
     border-radius: 8px;
     color: white;
     font-weight: bold;
-    z-index: 1000;
+    z-index: 99999;
     animation: slideIn 0.3s ease-in-out;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .notification-toast.error {
     background-color: #e74c3c; 
+    border-left: 8px solid #c0392b;
 }
 
 .notification-toast.success {
@@ -124,4 +126,11 @@
 @keyframes slideIn {
     from { transform: translateX(100%); }
     to { transform: translateX(0); }
+}
+
+.notification-toast.neutral {
+    background-color: #ffffff;   
+    color: #333333;              
+    border-left: 8px solid #333;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15); 
 }
