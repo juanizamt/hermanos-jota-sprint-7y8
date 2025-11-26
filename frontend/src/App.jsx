@@ -1,6 +1,6 @@
 // frontend/src/App.jsx
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 
 import ListaProductos from './ListaProductos.jsx';
@@ -41,51 +41,41 @@ const CatalogWrapper = () => {
     );
 };
 
-const addToCart = (productToAdd) => {
-    
-    const productId = productToAdd._id || productToAdd.id; 
-    const existingItem = cart.find(item => item.id === productId);
-    const price = Number(productToAdd.precio); 
 
-    const currentStock = Number(productToAdd.stock || 0); 
-    
-    // ESTE IF VERIFICA QUE NO SE SOBREPASE EL STOCK
-    if (existingItem && existingItem.quantity >= currentStock) {
-
-        window.alert(`No puedes añadir más ${productToAdd.nombre}. Límite de stock real (${currentStock}) alcanzado.`);
-        return; // Bloquea la adición
-    }
-
-    if (existingItem) {
-        setCart(cart.map(item =>
-            item.id === productId
-                ? { ...item, quantity: item.quantity + 1 } 
-                : item
-        ));
-    } else {
-
-        setCart([...cart, { ...productToAdd, quantity: 1, id: productId, precio: price, stock: currentStock }]);
-    }
-};
 
 function App() {
     
     const [cart, setCart] = useState([]); 
+    const [notification, setNotification] = useState(null);
     
+    useEffect(() => {
+        if (notification) {
+            const timer = setTimeout(() => setNotification(null), 3000);
+            return () => clearTimeout(timer);
+        }
+    }, [notification]);
     
     const addToCart = (productToAdd) => { 
         
         const existingItem = cart.find(item => item.id === productToAdd._id);
         const price = Number(productToAdd.precio); 
 
+        if (existingItem && existingItem.quantity >= currentStock) {
+            setNotification({
+                message: `¡Stock límite alcanzado! Solo quedan ${currentStock} unidades de ${productToAdd.nombre}.`,
+                type: 'error'
+            });
+            return; 
+        }
         if (existingItem) {
             setCart(cart.map(item =>
                 item.id === productToAdd._id ? { ...item, quantity: item.quantity + 1 } : item
             ));
         } else {
-            
             setCart([...cart, { ...productToAdd, quantity: 1, id: productToAdd._id, precio: price }]);
         }
+        
+        setNotification({ message: `Añadido: ${productToAdd.nombre}`, type: 'success' });
     };
 
     const removeFromCart = (productId, removeAll = false) => { 
@@ -113,10 +103,14 @@ function App() {
 
     
     return (
-        <div style={{minHeight: '80vh'}}> 
+        <div style={{minHeight: '80vh', position: 'relative'}}> 
 
             <Navbar /> 
-            
+            {notification && (
+                <div className={`notification-toast ${notification.type}`}>
+                    {notification.message}
+                </div>
+            )}            
 
             <Routes>
                 <Route path="/" element={<HeroPage />} />
