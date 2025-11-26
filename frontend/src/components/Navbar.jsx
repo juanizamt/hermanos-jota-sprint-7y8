@@ -28,12 +28,21 @@ function Navbar() {
           <li><Link to="/catalogo">Catálogo</Link></li>
           <li><Link to="/contacto">Contacto</Link></li>
 
+        {user && user.roles && user.roles.includes('admin') && (
+          <li>
+             <Link to="/admin/crear-producto" className="nav-link-style" style={{color: '#e67e22'}}>
+                    ★ Crear Producto
+              </Link>
+           </li>
+          )}
+
          
           {user ? (
             <>
               <li>
                   <span className="user-welcome">Hola, {user.username}</span>
               </li>
+              
               
               <li>
                   <button onClick={handleLogout} className="btn-logout">

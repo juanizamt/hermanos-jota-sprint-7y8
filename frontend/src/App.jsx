@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import ProtectedRoute from './components/ProtectedRoute';
 
 import ListaProductos from './ListaProductos.jsx';
 import ProductoDetalle from './ProductoDetalle.jsx';
@@ -144,8 +145,11 @@ function App() {
                 <Route path="/login" element={<LoginPage setNotification={setNotification} />} />
                 <Route path="/registro" element={<RegisterPage setNotification={setNotification} />} />
                 
-                <Route path="/admin/crear-producto" element={<ProductForm />} /> 
-                <Route path="/admin/editar-producto/:id" element={<ProductForm />} /> 
+                <Route element = {<ProtectedRoute requireAdmin={true} />}>
+                    <Route path="/admin/crear-producto" element={<ProductForm />} /> 
+                    <Route path="/admin/editar-producto/:id" element={<ProductForm />} /> 
+                </Route>
+                
                 <Route path="/productos/:id" element={<ProductoDetalle />} />
                 <Route path="/carrito" element={<Carrito />} /> 
             </Routes>
