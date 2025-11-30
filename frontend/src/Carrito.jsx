@@ -6,6 +6,8 @@ import { CartContext } from './context/CartContext';
 import { AuthContext } from './context/AuthContext'; 
 import './App.css';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 function Carrito() { 
 
     const { 
@@ -28,7 +30,7 @@ function Carrito() {
             return;
         }
 
-        const API_URL_STOCK = 'http://localhost:5000/api/productos/update-stock';
+        const API_URL_STOCK = `${API_BASE}/productos/update-stock`;
         
         const itemsToUpdate = cart.map(item => ({
             id: item._id || item.id, // Aseguramos compatibilidad con _id de Mongo

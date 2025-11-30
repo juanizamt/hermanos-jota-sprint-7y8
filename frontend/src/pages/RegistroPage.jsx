@@ -5,6 +5,8 @@ import { AuthContext } from '../context/AuthContext';
 
 import { useNavigate } from 'react-router-dom';
 
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 function RegistroPage() {
     const [formData, setFormData] = useState({ username: '', email: '', password: '' });
     const navigate = useNavigate();

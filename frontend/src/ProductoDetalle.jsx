@@ -3,7 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import { CartContext } from './context/CartContext'; 
 import { AuthContext } from './context/AuthContext';
 
-const API_URL = 'http://localhost:5000/api/productos';
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = `${API_BASE}/productos`;
 
 function ProductoDetalle() { 
     
