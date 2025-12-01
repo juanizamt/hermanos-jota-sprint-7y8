@@ -1,4 +1,4 @@
-E-commerce Mueblería Hermanos Jota - Sprint 7 y 8
+# E-commerce Mueblería Hermanos Jota - Sprint 7 y 8
 
 Integrantes del Equipo:
 
@@ -20,8 +20,10 @@ Experiencia de Usuario Dinámica: Interfaz que reacciona al estado de autenticac
 
 Despliegue en la Nube: El proyecto ha dejado de ser local, el frontend se encuentra alojado en Vercel y el backend en Render, conectados a una base de datos MongoDB Atlas.
 
-Link render: https://hermanos-jota-sprint-7y8.onrender.com
-Link vercel: https://hermanos-jota-sprint-7y8-yymb.vercel.app/
+Enlaces de Despliegue:
+
+* **Backend (API):** [https://hermanos-jota-sprint-7y8.onrender.com](https://hermanos-jota-sprint-7y8.onrender.com)
+* **Frontend (Web):** [https://hermanos-jota-sprint-7y8-yymb.vercel.app/](https://hermanos-jota-sprint-7y8-yymb.vercel.app/)
 
 El link de vercel posee la pagina de la muebleria funcionando 
 
