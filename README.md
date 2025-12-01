@@ -61,7 +61,7 @@ Crea un archivo .env dentro de la carpeta backend con las siguientes variables:
 Fragmento de código
 
 PORT=5000
-MONGO_URI="mongodb+srv://[TU_USUARIO]:[TU_CONTRASEÑA]@[CLUSTER].mongodb.net/[NOMBRE_BD]"
+MONGO_URI="mongodb+srv://[USUARIO]:[CONTRASEÑA]@[CLUSTER].mongodb.net/[NOMBRE_BD]"
 JWT_SECRET=frase_super_secreta_para_firmar_tokens_123451212
 
 Inicia el servidor:
